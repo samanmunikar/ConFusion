@@ -27,9 +27,9 @@
     </div>
   </div>
 
-  <!-- <div fxFlex="40">
-    <h2>Comments</h2>
-    <mat-list>
+  <div fxFlex="40">
+    <mat-list *ngIf="dish">
+      <h3>Comments</h3>
       <mat-list-item *ngFor="let review of dish.comments">
         <h4 matLine> {{review.comment}} </h4>  
         <p matLine>
@@ -39,22 +39,6 @@
           <span class="demo-2"> -- {{review.author}} {{review.date | date}}</span>
         </p>
       </mat-list-item>
-    </mat-list> -->
-    <div fxFlex="40">
-        <mat-card *ngIf="dish.comments">
-          <mat-card-title>
-            <h3>Comments</h3>
-          </mat-card-title>
-          <mat-card-content>
-            <mat-list fxFlex="100">
-              <mat-list-item *ngFor="let comment of dish.comments">
-                <p matLine>{{comment.comment}}</p>
-                <p matLine>{{comment.rating}} Stars</p>
-                <p matLine>-- {{comment.author}} {{comment.date | date}}</p>
-              </mat-list-item>
-            </mat-list>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
+    </mat-list>
+   
 </div>
