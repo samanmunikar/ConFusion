@@ -12,6 +12,10 @@ export class DishService {
 
   constructor() { }
 
+  getDishIds(): Observable<string[] | any> {
+    return of(DISHES.map(dish => dish.id));
+  }
+
   // getDishes(): Promise<Dish[]> {
   //   // return  new Promise(resolve => {
   //   //   // Simulate the latency with 2 seconds delay
