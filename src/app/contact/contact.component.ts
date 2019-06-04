@@ -63,7 +63,7 @@ export class ContactComponent implements OnInit {
     this.feedbackForm.valueChanges
         .subscribe(data => this.onValueChanged(data));
     
-    this.onValueChanged();
+    this.onValueChanged(); // reset form validation messages
   }
 
   onValueChanged(data?: any){

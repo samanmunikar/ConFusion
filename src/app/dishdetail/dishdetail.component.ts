@@ -66,7 +66,6 @@ export class DishdetailComponent implements OnInit {
     if (value > 5) {
       return Math.round(value / 5);
     }
-    console.log(value);
 
     return value;
   }
@@ -75,7 +74,7 @@ export class DishdetailComponent implements OnInit {
   createForm() {
     this.commentForm = this.fb.group({
       author: ['', [Validators.required, Validators.minLength(2)]],
-      rating: [''],
+      rating: ['5'],
       comment: ['', [Validators.required]] 
     });
 
@@ -118,9 +117,13 @@ export class DishdetailComponent implements OnInit {
   onSubmit() {
     this.comment = this.commentForm.value;
     console.log(this.comment);
+
+    var d = new Date();
+    this.comment['date'] = d.toString();
+    this.dish.comments.push(this.comment);
     this.commentForm.reset({
       author: '',
-      rating:'',
+      rating:'5',
       comment:''
     });
     this.commentFormDirective.resetForm();

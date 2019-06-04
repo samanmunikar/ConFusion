@@ -54,7 +54,7 @@
 
     <div *ngIf="dish">
       <mat-list>
-          <mat-list-item>
+          <mat-list-item *ngIf="commentForm.status === 'VALID'">
               <h4 matLine> {{commentForm.value.comment}}  </h4>  
               <p matLine>
                 <span>{{commentForm.value.rating}}  stars</span>
