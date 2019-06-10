@@ -17,9 +17,11 @@ export class DishdetailComponent implements OnInit {
   
   @ViewChild('cform') commentFormDirective;
   dish: Dish;
+  dishcopy: Dish;
   dishIds: string[];
   prev: string;
   next: string;
+  errMess: string;
 
   commentForm: FormGroup;
   comment: Comment;
@@ -53,10 +55,12 @@ export class DishdetailComponent implements OnInit {
   ngOnInit() {
     // let id = this.route.snapshot.params['id'];
     this.dishService.getDishIds()
-        .subscribe(dishIds => this.dishIds = dishIds);
+        .subscribe(dishIds => this.dishIds = dishIds,
+          errmess => this.errMess = <any>errmess);
     this.route.params
         .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
-        .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+        .subscribe(dish => { this.dish = dish; this.dishcopy = dish; this.setPrevNext(dish.id); },
+        errmess => this.errMess = <any>errmess);
   }
 
   formatLabel(value: number | null) {
@@ -75,7 +79,7 @@ export class DishdetailComponent implements OnInit {
   createForm() {
     this.commentForm = this.fb.group({
       author: ['', [Validators.required, Validators.minLength(2)]],
-      rating: ['5'],
+      rating: 5,
       comment: ['', [Validators.required]] 
     });
 
@@ -120,11 +124,21 @@ export class DishdetailComponent implements OnInit {
     console.log(this.comment);
 
     var d = new Date();
-    this.comment['date'] = d.toString();
-    this.dish.comments.push(this.comment);
+    this.comment['date'] = d.toISOString();
+    this.dishcopy.comments.push(this.comment);
+    this.dishService.putDish(this.dishcopy)
+        .subscribe(dish => {
+          this.dish = dish;
+          this.dishcopy = dish;
+        },
+        errmess => {
+          this.dish = null;
+          this.dishcopy =null;
+          this.errMess = <any>errmess;
+        });
     this.commentForm.reset({
       author: '',
-      rating:'5',
+      rating: 5,
       comment:''
     });
     this.commentFormDirective.resetForm();
