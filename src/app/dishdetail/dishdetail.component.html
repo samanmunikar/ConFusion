@@ -6,7 +6,7 @@
     fxLayoutGap="10px" 
     fxLayoutGap.xs="0">
 
-  <div fxFlex="40" *ngIf="dish">
+  <div fxFlex="40" *ngIf="dish" [@visibility]="visibility">
     <div fxFlex>
       <mat-card>
         <mat-card-header>
@@ -35,7 +35,7 @@
 
   <div fxFlex="40">
   <div>
-  <div *ngIf="dish">
+  <div *ngIf="dish"  [@visibility]="visibility">
     <mat-list>
       <h3>Comments</h3>
       <mat-list-item *ngFor="let review of dish.comments">
@@ -58,7 +58,7 @@
   </div>
 </div>
 
-    <div *ngIf="dish">
+    <div *ngIf="dish"  [@visibility]="visibility">
       <mat-list>
           <mat-list-item *ngIf="commentForm.status === 'VALID'">
               <h4 matLine> {{commentForm.value.comment}}  </h4>  
