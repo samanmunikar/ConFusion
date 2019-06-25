@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
 import { flyInOut } from '../animations/app.animation';
 import { FeedbackService } from '../services/feedback.service';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/timer';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contact',
@@ -25,6 +28,10 @@ export class ContactComponent implements OnInit {
   contactType = ContactType;
 
   errmess: string;
+  isLoading = false;
+  isSubmitted = false;
+  private timer: Observable<any>;
+  private subscription: Subscription;
   
   formErrors = {
     'firstname': '',
@@ -101,8 +108,15 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     this.feedbackCopy = this.feedbackForm.value;
     // console.log(this.feedbackCopy);
+    this.isLoading = true;
     this.feedbackService.submitFeedback(this.feedbackCopy)
       .subscribe(feedback => {
+        this.isLoading = false;
+        this.isSubmitted = true;
+        this.timer = Observable.timer(5000);
+        this.subscription = this.timer.subscribe(() => {
+          this.isSubmitted = false;
+        })
         console.log(this.feedbackCopy);
         this.feedback = feedback;
         this.feedbackCopy = feedback;
